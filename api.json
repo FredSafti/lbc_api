@@ -1,0 +1,313 @@
+{
+"openapi": "3.0.1",
+  "info": {
+    "title": "API LeBonCoin",
+    "version": "0.0.1",
+    "description": ""
+  },
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "Generate a session token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "api key": {
+                    "description": "API Key",
+                    "type": "string"
+                  },
+                  "api secret": {
+                    "description": "API secret",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                      "token": {
+                      "type": "string"
+                    },
+                    "credits": {
+                      "description": "How many credits available",
+                      "type": "integer",
+                      "example": 12450
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/credits": {
+      "get": {
+        "security": [{"auth": []}],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "credits": {
+                      "type": "integer",
+                      "example": 20014
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/annonces": {
+        "get": {
+            "description": "Liste des annonces associées au compte",
+            "security": [{"auth": []}],
+            "parameters": [
+                {
+                  "in": "query",
+                  "name": "page",
+                  "schema": {
+                    "type": "integer",
+                    "example": 0
+                  }
+                },
+                {
+                  "in": "query",
+                  "name": "itemsPerPage",
+                  "schema": {
+                    "type": "integer",
+                    "example": 200
+                  }
+                }   
+              ],
+              "responses": {
+                "200": {
+                  "description": "Tableau JSON des annonces",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/annonce"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+      
+        }
+    },
+    "/annonces/toplist": {
+      "post": {
+        "security": [{"auth": []}],
+        "description": "Liste d'annonces pour lesquelles il faut faire une remontée en tête de liste",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "1910749451"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "refs": {
+                      "description": "References list for annonces accepted for top_list",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "1910749451"
+                      }
+                    },
+                    "credits": {
+                      "description": "Credits remaining",
+                      "type": "integer",
+                      "example": 12450
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/annonces/subscription": {
+      "post": {
+        "security": [{"auth": []}],
+        "description": "Liste d'annonces pour lesquelles souscrire un abonnement de remontées automatiques",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "1910749451"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "refs": {
+                      "description": "References list for annonces accepted for subscription",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "1910749451"
+                      }
+                    },
+                    "credits": {
+                      "description": "Credits remaining",
+                      "type": "integer",
+                      "example": 12450
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "auth": {
+        "description": "Session token",
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "annonce": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "example": "1910749451"
+          },
+          "titre": {
+            "type": "string",
+            "example": "Appartement 3 pièces 56 m²"
+          },
+          "surface": {
+            "type": "string",
+            "example": "56 m²"
+          },
+          "typeBien": {
+            "type": "string",
+            "example": "appartement"
+          },
+          "nbPieces": {
+            "type": "integer",
+            "example": 3
+          },
+          "codePostal": {
+            "type": "string",
+            "example": "31100"
+          },
+          "ville": {
+            "type": "string",
+            "example": "Toulouse"
+          },
+          "prix": {
+            "type": "integer",
+            "example": 150000
+          },
+          "image": {
+            "type": "string",
+            "example": "b50c5fb5ca51550cb2abf98ad62f0a7a2ca027cd.jpg"
+          },
+          "subscription": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "ErrorBadRequest": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "enum": [
+              "bad_content",
+              "missing_parameter"
+            ]
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorBadRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+}
