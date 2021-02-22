@@ -41,7 +41,7 @@
                       "type": "string"
                     },
                     "credits": {
-                      "description": "How many credits available",
+                      "description": "Amount of available credits",
                       "type": "integer",
                       "example": 12450
                     }
@@ -79,7 +79,7 @@
         }
       }
     },
-    "/annonces": {
+    "/ads": {
         "get": {
             "description": "Liste des annonces associées au compte",
             "security": [{"auth": []}],
@@ -103,13 +103,12 @@
               ],
               "responses": {
                 "200": {
-                  "description": "Tableau JSON des annonces",
                   "content": {
                     "application/json": {
                       "schema": {
                         "type": "array",
                         "items": {
-                          "$ref": "#/components/schemas/annonce"
+                          "$ref": "#/components/schemas/ad"
                         }
                       }
                     }
@@ -119,10 +118,10 @@
       
         }
     },
-    "/annonces/toplist": {
+    "/ads/toplist": {
       "post": {
         "security": [{"auth": []}],
-        "description": "Liste d'annonces pour lesquelles il faut faire une remontée en tête de liste",
+        "description": "Remontée en tête de liste pour une liste d'annonces",
         "requestBody": {
           "required": true,
           "content": {
@@ -174,10 +173,10 @@
         }
       }
     },
-    "/annonces/subscription": {
+    "/ads/subscription": {
       "post": {
         "security": [{"auth": []}],
-        "description": "Liste d'annonces pour lesquelles souscrire un abonnement de remontées automatiques",
+        "description": "Souscription d'un abonnement de remontées automatiques pour une liste d'annonces",
         "requestBody": {
           "required": true,
           "content": {
@@ -239,38 +238,50 @@
       }
     },
     "schemas": {
-      "annonce": {
+      "ad": {
         "type": "object",
         "properties": {
           "ref": {
             "type": "string",
-            "example": "1910749451"
+            "example": "1867419979"
           },
-          "titre": {
+          "createdAt": {
+            "type": "string",
+            "example": "2020-10-26T08:05:39+01:00"
+          },
+          "customRef": {
+            "type": "string",
+            "example": "18"
+          },
+          "title": {
             "type": "string",
             "example": "Appartement 3 pièces 56 m²"
+          },
+          "category": {
+            "type": "string",
+            "example": "Ventes immobilières"
           },
           "surface": {
             "type": "string",
             "example": "56 m²"
           },
-          "typeBien": {
+          "propertyType": {
             "type": "string",
             "example": "appartement"
           },
-          "nbPieces": {
+          "roomsNumber": {
             "type": "integer",
             "example": 3
           },
-          "codePostal": {
+          "zipcode": {
             "type": "string",
             "example": "31100"
           },
-          "ville": {
+          "city": {
             "type": "string",
             "example": "Toulouse"
           },
-          "prix": {
+          "price": {
             "type": "integer",
             "example": 150000
           },
@@ -278,9 +289,21 @@
             "type": "string",
             "example": "b50c5fb5ca51550cb2abf98ad62f0a7a2ca027cd.jpg"
           },
-          "subscription": {
+          "url": {
+            "type": "string",
+            "example": "https://www.leboncoin.fr/ventes_immobilieres/1867765333.htm"
+          },
+          "subToplist": {
             "type": "boolean",
             "example": false
+          },
+          "origPostTime": {
+            "type": "string",
+            "example": "2020-10-26T08:05:39+01:00"
+          },
+          "lastPostTime": {
+            "type": "string",
+            "example": "2020-10-26T08:05:39+01:00"
           }
         }
       },
