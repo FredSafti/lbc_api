@@ -129,7 +129,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "refs": {
+                  "ads": {
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -149,8 +149,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "refs": {
-                      "description": "References list for annonces accepted for top_list",
+                    "ads": {
+                      "description": "Id list of ads accepted for top_list",
                       "type": "array",
                       "items": {
                         "type": "string",
@@ -184,7 +184,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "refs": {
+                  "ads": {
                     "type": "array",
                     "items": {
                       "type": "string",
@@ -204,8 +204,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "refs": {
-                      "description": "References list for annonces accepted for subscription",
+                    "ads": {
+                      "description": "Id list of ads accepted for subscription",
                       "type": "array",
                       "items": {
                         "type": "string",
@@ -241,7 +241,7 @@
       "ad": {
         "type": "object",
         "properties": {
-          "ref": {
+          "id": {
             "type": "string",
             "example": "1867419979"
           },
